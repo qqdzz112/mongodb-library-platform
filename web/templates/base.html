@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}图书情报检索与统计平台{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    :root {
+      --brand: #264653;
+      --brand-2: #2a9d8f;
+      --accent: #e9c46a;
+    }
+    body { background: #f7f9f9; color: #2b3a3a; }
+    .navbar-brand { font-weight: 700; letter-spacing: .5px; }
+    .navbar { background: var(--brand) !important; }
+    .navbar .nav-link { color: rgba(255,255,255,.82) !important; border-radius: 6px; padding: .42rem .8rem !important; }
+    .navbar .nav-link:hover { background: rgba(255,255,255,.12); color: #fff !important; }
+    .navbar .nav-link.active { background: var(--brand-2); color: #fff !important; font-weight: 600; }
+    .card { border: 1px solid #e3eaea; border-radius: 10px; box-shadow: 0 1px 4px rgba(38,70,83,.05); }
+    .stat-card { transition: .15s; }
+    .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(38,70,83,.1); }
+    .stat-value { font-size: 1.9rem; font-weight: 700; color: var(--brand); line-height: 1.1; }
+    .stat-label { font-size: .82rem; color: #6b7c7c; }
+    .stat-icon { font-size: 1.6rem; color: var(--brand-2); opacity: .8; }
+    .badge-cat { background: #e9f5f3; color: #1b6a61; font-weight: 500; }
+    .stars { color: #e9a23b; letter-spacing: 1px; }
+    .table > :not(caption) > * > * { padding: .65rem .75rem; }
+    thead.table-light th { font-size: .84rem; color: #5b6b6b; font-weight: 600; }
+    .section-title { font-size: 1.05rem; font-weight: 700; color: var(--brand); border-left: 4px solid var(--brand-2); padding-left: 10px; margin: 1.6rem 0 .9rem; }
+    footer { color: #8a9a9a; font-size: .82rem; border-top: 1px solid #e3eaea; background: #fff; }
+    .book-cover { width: 46px; height: 62px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: .68rem; text-align: center; color: #fff; font-weight: 600; padding: 2px; overflow: hidden; }
+    .progress-thin { height: 6px; border-radius: 3px; }
+    .meta-key { color: #6b7c7c; font-size: .84rem; }
+    .meta-val { font-size: .9rem; font-weight: 500; }
+    .hover-row:hover { background: #f0f7f6; }
+    .empty-state { padding: 3rem 1rem; text-align: center; color: #8a9a9a; }
+    .empty-state i { font-size: 2.6rem; color: #c9d6d6; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+  <div class="container-xl">
+    <a class="navbar-brand" href="{{ url_for('index') }}">
+      <i class="bi bi-book-half me-1"></i> 图书情报平台
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
+        {% set ep = request.endpoint %}
+        <li class="nav-item"><a class="nav-link {{ 'active' if ep=='index' }}" href="{{ url_for('index') }}"><i class="bi bi-speedometer2 me-1"></i>仪表盘</a></li>
+        <li class="nav-item"><a class="nav-link {{ 'active' if ep in ('books','book_detail') }}" href="{{ url_for('books') }}"><i class="bi bi-search me-1"></i>图书检索</a></li>
+        <li class="nav-item"><a class="nav-link {{ 'active' if ep=='stats' }}" href="{{ url_for('stats') }}"><i class="bi bi-bar-chart-line me-1"></i>统计分析</a></li>
+        <li class="nav-item"><a class="nav-link {{ 'active' if ep=='readers' }}" href="{{ url_for('readers') }}"><i class="bi bi-people me-1"></i>读者</a></li>
+        <li class="nav-item"><a class="nav-link {{ 'active' if ep=='logs' }}" href="{{ url_for('logs') }}"><i class="bi bi-arrow-left-right me-1"></i>借阅流水</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main class="container-xl py-4">
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="py-3 mt-5">
+  <div class="container-xl d-flex flex-wrap justify-content-between">
+    <span>图书情报检索与统计平台 · MongoDB 7.0 + PyMongo + Flask</span>
+    <span>《NoSQL数据库技术与应用》实训项目</span>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

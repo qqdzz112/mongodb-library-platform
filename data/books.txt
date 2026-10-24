@@ -1,0 +1,363 @@
+[
+  {
+    "isbn": "9787115428028",
+    "title": "Python编程：从入门到实践",
+    "author": "埃里克·马瑟斯",
+    "publisher": "人民邮电出版社",
+    "category": "计算机",
+    "price": 89.0,
+    "stock": 15,
+    "rating": 4.6,
+    "tags": [
+      "编程",
+      "入门",
+      "Python"
+    ],
+    "publish_date": {
+      "$date": "2023-03-01T00:00:00.000+08:00"
+    },
+    "borrow_count": 127
+  },
+  {
+    "isbn": "9787121362726",
+    "title": "深入理解计算机系统（原书第3版）",
+    "author": "Randal E. Bryant",
+    "publisher": "电子工业出版社",
+    "category": "计算机",
+    "price": 139.0,
+    "stock": 8,
+    "rating": 4.8,
+    "tags": [
+      "计算机",
+      "体系结构",
+      "进阶"
+    ],
+    "publish_date": {
+      "$date": "2021-11-15T00:00:00.000+08:00"
+    },
+    "borrow_count": 156
+  },
+  {
+    "isbn": "9787115546081",
+    "title": "算法图解",
+    "author": "Aditya Bhargava",
+    "publisher": "人民邮电出版社",
+    "category": "计算机",
+    "price": 49.0,
+    "stock": 22,
+    "rating": 4.5,
+    "tags": [
+      "算法",
+      "入门",
+      "图解"
+    ],
+    "publish_date": {
+      "$date": "2019-04-01T00:00:00.000+08:00"
+    },
+    "borrow_count": 98
+  },
+  {
+    "isbn": "9787302653315",
+    "title": "数据结构（C语言版）",
+    "author": "严蔚敏",
+    "publisher": "清华大学出版社",
+    "category": "计算机",
+    "price": 39.0,
+    "stock": 0,
+    "rating": 4.3,
+    "tags": [
+      "数据结构",
+      "教材"
+    ],
+    "publish_date": {
+      "$date": "2007-08-01T00:00:00.000+08:00"
+    },
+    "borrow_count": 203
+  },
+  {
+    "isbn": "9787115293800",
+    "title": "JavaScript高级程序设计（第4版）",
+    "author": "Matt Frisbie",
+    "publisher": "人民邮电出版社",
+    "category": "计算机",
+    "price": 109.0,
+    "stock": 17,
+    "rating": 4.4,
+    "tags": [
+      "JavaScript",
+      "前端",
+      "进阶"
+    ],
+    "publish_date": {
+      "$date": "2020-06-01T00:00:00.000+08:00"
+    },
+    "borrow_count": 134
+  },
+  {
+    "isbn": "9787544253994",
+    "title": "活着",
+    "author": "余华",
+    "publisher": "作家出版社",
+    "category": "文学",
+    "price": 28.0,
+    "stock": 32,
+    "rating": 4.9,
+    "tags": [
+      "文学",
+      "小说",
+      "经典"
+    ],
+    "publish_date": {
+      "$date": "2012-08-01T00:00:00.000+08:00"
+    },
+    "borrow_count": 243
+  },
+  {
+    "isbn": "9787020042033",
+    "title": "红楼梦",
+    "author": "曹雪芹",
+    "publisher": "人民文学出版社",
+    "category": "文学",
+    "price": 59.7,
+    "stock": 21,
+    "rating": 4.7,
+    "tags": [
+      "文学",
+      "古典",
+      "小说"
+    ],
+    "publish_date": {
+      "$date": "1996-12-01T00:00:00.000+08:00"
+    },
+    "borrow_count": 189
+  },
+  {
+    "isbn": "9787549529322",
+    "title": "平凡的世界（全三部）",
+    "author": "路遥",
+    "publisher": "北京十月文艺出版社",
+    "category": "文学",
+    "price": 98.0,
+    "stock": 9,
+    "rating": 4.8,
+    "tags": [
+      "文学",
+      "小说",
+      "经典"
+    ],
+    "publish_date": {
+      "$date": "2017-05-01T00:00:00.000+08:00"
+    },
+    "borrow_count": 167
+  },
+  {
+    "isbn": "9787532754808",
+    "title": "百年孤独（精装）",
+    "author": "加西亚·马尔克斯",
+    "publisher": "南海出版公司",
+    "category": "文学",
+    "price": 55.0,
+    "stock": 12,
+    "rating": 4.6,
+    "publish_date": {
+      "$date": "2017-04-01T00:00:00.000+08:00"
+    },
+    "borrow_count": 142
+  },
+  {
+    "isbn": "9787532718758",
+    "title": "飘",
+    "author": "玛格丽特·米切尔",
+    "publisher": "译林出版社",
+    "category": "文学",
+    "price": 68.0,
+    "stock": 5,
+    "rating": 4.5,
+    "publish_date": {
+      "$date": "2020-03-01T00:00:00.000+08:00"
+    },
+    "borrow_count": 76
+  },
+  {
+    "isbn": "9787302423282",
+    "title": "经济学原理（第7版）",
+    "author": "N.格里高利·曼昆",
+    "publisher": "北京大学出版社",
+    "category": "经济管理",
+    "price": 128.0,
+    "stock": 14,
+    "rating": 4.4,
+    "tags": [
+      "经济学",
+      "教材",
+      "入门"
+    ],
+    "publish_date": {
+      "$date": "2020-04-01T00:00:00.000+08:00"
+    },
+    "borrow_count": 118
+  },
+  {
+    "isbn": "9787521701326",
+    "title": "公司理财",
+    "author": "罗斯· Westerfield",
+    "publisher": "中国人民大学出版社",
+    "category": "经济管理",
+    "price": 89.0,
+    "stock": 11,
+    "rating": 4.2,
+    "tags": [
+      "金融",
+      "教材"
+    ],
+    "publish_date": {
+      "$date": "2018-07-01T00:00:00.000+08:00"
+    },
+    "borrow_count": 87
+  },
+  {
+    "isbn": "9787521711881",
+    "title": "创业企业管理",
+    "author": "张创业",
+    "publisher": "北京大学出版社",
+    "category": "经济管理",
+    "price": 59.0,
+    "stock": 6,
+    "rating": 4.0,
+    "tags": [
+      "管理",
+      "创业"
+    ],
+    "publish_date": {
+      "$date": "2021-09-01T00:00:00.000+08:00"
+    },
+    "borrow_count": 45
+  },
+  {
+    "isbn": "9787115298428",
+    "title": "费马大定理",
+    "author": "西蒙·辛格",
+    "publisher": "人民邮电出版社",
+    "category": "数学",
+    "price": 45.0,
+    "stock": 19,
+    "rating": 4.7,
+    "tags": [
+      "数学",
+      "科普",
+      "经典"
+    ],
+    "publish_date": {
+      "$date": "2017-10-01T00:00:00.000+08:00"
+    },
+    "borrow_count": 92
+  },
+  {
+    "isbn": "9787040405241",
+    "title": "数学之美",
+    "author": "吴军",
+    "publisher": "高等教育出版社",
+    "category": "数学",
+    "price": 36.0,
+    "stock": 25,
+    "rating": 4.5,
+    "tags": [
+      "数学",
+      "科普"
+    ],
+    "publish_date": {
+      "$date": "2012-03-01T00:00:00.000+08:00"
+    },
+    "borrow_count": 158
+  },
+  {
+    "isbn": "9787518910041",
+    "title": "哥德尔证明",
+    "author": "道格拉斯·霍斯曼",
+    "publisher": "中国人民大学出版社",
+    "category": "数学",
+    "price": 48.0,
+    "stock": 4,
+    "rating": 4.8,
+    "publish_date": {
+      "$date": "2016-08-01T00:00:00.000+08:00"
+    },
+    "borrow_count": 61
+  },
+  {
+    "isbn": "9787544720973",
+    "title": "英语语法新思维",
+    "author": "林登",
+    "publisher": "北京大学出版社",
+    "category": "外语",
+    "price": 52.0,
+    "stock": 16,
+    "rating": 4.1,
+    "tags": [
+      "英语",
+      "语法",
+      "教材"
+    ],
+    "publish_date": {
+      "$date": "2019-05-01T00:00:00.000+08:00"
+    },
+    "borrow_count": 84
+  },
+  {
+    "isbn": "9787544674585",
+    "title": "牛津英语用法指南",
+    "author": " Swan",
+    "publisher": "外语教学与研究出版社",
+    "category": "外语",
+    "price": 118.0,
+    "stock": 3,
+    "rating": 4.6,
+    "tags": [
+      "英语",
+      "词典",
+      "工具书"
+    ],
+    "publish_date": {
+      "$date": "2021-01-01T00:00:00.000+08:00"
+    },
+    "borrow_count": 39
+  },
+  {
+    "isbn": "9787121362855",
+    "title": "设计模式：可复用面向对象软件的基础",
+    "author": "Erich Gamma",
+    "publisher": "电子工业出版社",
+    "category": "计算机",
+    "price": 79.0,
+    "stock": 13,
+    "rating": 4.7,
+    "tags": [
+      "编程",
+      "设计模式",
+      "进阶"
+    ],
+    "publish_date": {
+      "$date": "2006-01-01T00:00:00.000+08:00"
+    },
+    "borrow_count": 171
+  },
+  {
+    "_id": "ISBN-OLD-0001",
+    "isbn": "9787111187776",
+    "title": "数据结构基础教程（第二版）",
+    "author": "李春葆",
+    "publisher": "清华大学出版社",
+    "category": "计算机",
+    "price": 45.0,
+    "stock": 7,
+    "rating": 4.2,
+    "tags": [
+      "数据结构",
+      "教材"
+    ],
+    "publish_date": {
+      "$date": "2020-01-01T00:00:00.000+08:00"
+    },
+    "borrow_count": 88
+  }
+]

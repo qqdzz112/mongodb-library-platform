@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% block title %}{{ book.title }} · 图书情报检索与统计平台{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-3">
+  <ol class="breadcrumb mb-0 small">
+    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">仪表盘</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('books') }}">图书检索</a></li>
+    <li class="breadcrumb-item active">{{ book.title }}</li>
+  </ol>
+</nav>
+
+<div class="row g-4">
+  {# ── 左侧：图书信息 ── #}
+  <div class="col-lg-8">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex gap-4 flex-wrap">
+          {% set colors = {'计算机':'#2a9d8f','文学':'#e76f51','经济管理':'#457b9d','数学':'#7c5cbf','外语':'#e9a23b'} %}
+          <div class="book-cover" style="width: 96px; height: 132px; font-size: 1rem; background: {{ colors.get(book.category, '#6b7c7c') }};">
+            {{ book.category }}
+          </div>
+          <div class="flex-grow-1 min-width-0">
+            <h4 class="fw-bold mb-2">{{ book.title }}</h4>
+            <p class="text-muted mb-2">{{ book.author }}</p>
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <span class="stars">{{ book.rating | stars }}</span>
+              <span class="fw-bold">{{ book.rating }}</span>
+              <span class="text-muted">/ 5.0</span>
+              <span class="badge badge-cat ms-2">{{ book.category }}</span>
+            </div>
+            {% if book.tags %}
+            <div class="d-flex flex-wrap gap-1">
+              {% for t in book.tags %}
+              <span class="badge badge-cat fw-normal">#{{ t }}</span>
+              {% endfor %}
+            </div>
+            {% else %}
+            <span class="stat-label">（无标签）</span>
+            {% endif %}
+          </div>
+        </div>
+
+        <hr class="my-4">
+
+        <div class="row g-3">
+          <div class="col-6 col-md-4">
+            <div class="meta-key">ISBN</div>
+            <div class="meta-val">{{ book.isbn }}</div>
+          </div>
+          <div class="col-6 col-md-4">
+            <div class="meta-key">出版社</div>
+            <div class="meta-val">{{ book.publisher }}</div>
+          </div>
+          <div class="col-6 col-md-4">
+            <div class="meta-key">出版日期</div>
+            <div class="meta-val">{{ book.publish_date | dt }}</div>
+          </div>
+          <div class="col-6 col-md-4">
+            <div class="meta-key">定价</div>
+            <div class="meta-val fs-5 fw-bold" style="color: var(--brand);">{{ book.price | money }}</div>
+          </div>
+          <div class="col-6 col-md-4">
+            <div class="meta-key">库存</div>
+            <div class="meta-val">
+              {% if book.stock > 0 %}
+                <span class="text-success">{{ book.stock }} 册</span>
+              {% else %}
+                <span class="text-danger">缺货</span>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-6 col-md-4">
+            <div class="meta-key">累计借阅</div>
+            <div class="meta-val">{{ book.borrow_count }} 次</div>
+          </div>
+          {% if book.last_updated %}
+          <div class="col-6 col-md-4">
+            <div class="meta-key">最后更新</div>
+            <div class="meta-val small">{{ book.last_updated | dt('%Y-%m-%d %H:%M') }}</div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    {# ── 借阅记录 ── #}
+    <div class="section-title">借阅记录（最近 {{ logs|length }} 条）</div>
+    <div class="card"><div class="card-body p-0">
+      <table class="table table-sm mb-0">
+        <thead class="table-light">
+          <tr><th>借阅证号</th><th>借阅日期</th><th>归还日期</th><th>状态</th></tr>
+        </thead>
+        <tbody>
+        {% for l in logs %}
+          <tr class="hover-row">
+            <td>{{ l.reader_card }}</td>
+            <td>{{ l.borrow_date | dt('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ l.return_date | dt('%Y-%m-%d %H:%M') }}</td>
+            <td>
+              {% if l.status == '已归还' %}<span class="badge bg-success-subtle text-success-emphasis">{{ l.status }}</span>
+              {% elif l.status == '借出' %}<span class="badge bg-primary-subtle text-primary-emphasis">{{ l.status }}</span>
+              {% elif l.status == '逾期' %}<span class="badge bg-danger-subtle text-danger-emphasis">{{ l.status }}</span>
+              {% else %}<span class="badge bg-secondary">{{ l.status }}</span>{% endif %}
+            </td>
+          </tr>
+        {% else %}
+          <tr><td colspan="4">
+            <div class="empty-state"><i class="bi bi-journal-x"></i><p class="mt-2 mb-0">暂无借阅记录</p></div>
+          </td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div></div>
+  </div>
+
+  {# ── 右侧：快速操作 ── #}
+  <div class="col-lg-4">
+    <div class="card mb-3"><div class="card-body">
+      <h6 class="fw-bold mb-3">快捷跳转</h6>
+      <div class="d-grid gap-2">
+        <a href="{{ url_for('books', category=book.category) }}" class="btn btn-sm btn-outline-secondary text-start">
+          <i class="bi bi-tag me-1"></i>查看同类图书：{{ book.category }}
+        </a>
+        <a href="{{ url_for('logs', q=book.isbn) }}" class="btn btn-sm btn-outline-secondary text-start">
+          <i class="bi bi-clock-history me-1"></i>查看全部借阅流水
+        </a>
+        <a href="{{ url_for('stats') }}" class="btn btn-sm btn-outline-secondary text-start">
+          <i class="bi bi-bar-chart-line me-1"></i>前往统计分析
+        </a>
+      </div>
+    </div></div>
+
+    <div class="card"><div class="card-body">
+      <h6 class="fw-bold mb-3">评分分布说明</h6>
+      <div class="d-flex align-items-center mb-2">
+        <span class="meta-key" style="width:52px;">满分</span>
+        <div class="progress progress-thin flex-grow-1">
+          <div class="progress-bar" style="width: 100%; background: #e9a23b;"></div>
+        </div>
+        <span class="ms-2 meta-val">5.0</span>
+      </div>
+      <div class="d-flex align-items-center mb-2">
+        <span class="meta-key" style="width:52px;">本书</span>
+        <div class="progress progress-thin flex-grow-1">
+          <div class="progress-bar" style="width: {{ (book.rating / 5 * 100) | round(1) }}%; background: var(--brand-2);"></div>
+        </div>
+        <span class="ms-2 meta-val">{{ book.rating }}</span>
+      </div>
+      <p class="stat-label mb-0 mt-3">读者综合评分，满分 5.0</p>
+    </div></div>
+  </div>
+</div>
+
+{% endblock %}

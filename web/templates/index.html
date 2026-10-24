@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+{% block title %}仪表盘 · 图书情报检索与统计平台{% endblock %}
+
+{% block content %}
+
+{# ── 连接状态 ── #}
+<div class="alert {{ 'alert-success' if ov.connected else 'alert-danger' }} d-flex align-items-center py-2 mb-4">
+  <i class="bi {{ 'bi-check-circle-fill' if ov.connected else 'bi-x-circle-fill' }} me-2"></i>
+  {% if ov.connected %}
+    已连接 MongoDB <strong class="mx-1">{{ ov.server_version }}</strong> · 数据库 <code>library</code>
+  {% else %}
+    数据库连接失败：{{ ov.server_version }}
+  {% endif %}
+</div>
+
+{# ── 统计卡片 ── #}
+<div class="row g-3 mb-2">
+  <div class="col-6 col-lg-3">
+    <div class="card stat-card h-100">
+      <div class="card-body d-flex align-items-center justify-content-between">
+        <div>
+          <div class="stat-value">{{ ov.total_books }}</div>
+          <div class="stat-label">馆藏图书（种）</div>
+        </div>
+        <i class="bi bi-book stat-icon"></i>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card stat-card h-100">
+      <div class="card-body d-flex align-items-center justify-content-between">
+        <div>
+          <div class="stat-value">{{ ov.total_readers }}</div>
+          <div class="stat-label">注册读者（人）</div>
+        </div>
+        <i class="bi bi-people stat-icon"></i>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card stat-card h-100">
+      <div class="card-body d-flex align-items-center justify-content-between">
+        <div>
+          <div class="stat-value">{{ ov.total_logs }}</div>
+          <div class="stat-label">借阅流水（条）</div>
+        </div>
+        <i class="bi bi-arrow-left-right stat-icon"></i>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card stat-card h-100">
+      <div class="card-body d-flex align-items-center justify-content-between">
+        <div>
+          <div class="stat-value">{{ ov.category_count }}</div>
+          <div class="stat-label">图书类别（类）</div>
+        </div>
+        <i class="bi bi-tags stat-icon"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-lg-3">
+    <div class="card h-100"><div class="card-body py-3">
+      <div class="d-flex justify-content-between"><span class="stat-label">馆藏总量（册）</span><i class="bi bi-box-seam stat-icon"></i></div>
+      <div class="stat-value fs-4 mt-1">{{ ov.total_stock }}</div>
+      <div class="stat-label">在架 {{ ov.in_stock }} 种 / 无货 {{ ov.out_of_stock }} 种</div>
+    </div></div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card h-100"><div class="card-body py-3">
+      <div class="d-flex justify-content-between"><span class="stat-label">平均评分</span><i class="bi bi-star stat-icon"></i></div>
+      <div class="stat-value fs-4 mt-1">{{ ov.avg_rating }}</div>
+      <div class="stars">{{ ov.avg_rating | stars }}</div>
+    </div></div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card h-100"><div class="card-body py-3">
+      <div class="d-flex justify-content-between"><span class="stat-label">平均定价</span><i class="bi bi-currency-yen stat-icon"></i></div>
+      <div class="stat-value fs-4 mt-1">{{ ov.avg_price | money }}</div>
+      <div class="stat-label">各分类均价见统计页</div>
+    </div></div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card h-100"><div class="card-body py-3">
+      <div class="d-flex justify-content-between"><span class="stat-label">累计借阅次数</span><i class="bi bi-graph-up stat-icon"></i></div>
+      <div class="stat-value fs-4 mt-1">{{ ov.total_borrow }}</div>
+      <div class="stat-label">books.borrow_count 汇总</div>
+    </div></div>
+  </div>
+</div>
+
+<div class="row g-4">
+  {# ── 分类分布 ── #}
+  <div class="col-lg-6">
+    <div class="section-title">分类馆藏分布</div>
+    <div class="card"><div class="card-body">
+      {% set max_count = cats | map(attribute='count') | max if cats else 1 %}
+      {% for c in cats %}
+      <div class="mb-3">
+        <div class="d-flex justify-content-between mb-1">
+          <span><span class="badge badge-cat">{{ c._id }}</span></span>
+          <span class="meta-val">{{ c.count }} 种 · 均分 {{ "%.2f"|format(c.avgRating or 0) }}</span>
+        </div>
+        <div class="progress progress-thin">
+          <div class="progress-bar" style="width: {{ (c.count / max_count * 100) | round(1) }}%; background: var(--brand-2);"></div>
+        </div>
+      </div>
+      {% endfor %}
+    </div></div>
+  </div>
+
+  {# ── 借阅趋势 ── #}
+  <div class="col-lg-6">
+    <div class="section-title">年度借阅趋势</div>
+    <div class="card"><div class="card-body">
+      {% if trend %}
+        {% set max_t = trend | map(attribute='count') | max %}
+        <div class="d-flex align-items-end justify-content-around" style="height: 160px;">
+          {% for t in trend %}
+          <div class="text-center flex-fill mx-2">
+            <div class="meta-val mb-1">{{ t.count }}</div>
+            <div style="background: linear-gradient(180deg, var(--brand-2), var(--brand));
+                        height: {{ (t.count / max_t * 110) | round(0) }}px;
+                        border-radius: 4px 4px 0 0;"></div>
+            <div class="stat-label mt-2">{{ t._id }} 年</div>
+          </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="empty-state"><i class="bi bi-graph-up"></i><p class="mt-2 mb-0">暂无借阅数据</p></div>
+      {% endif %}
+    </div></div>
+  </div>
+
+  {# ── 畅销榜 ── #}
+  <div class="col-lg-6">
+    <div class="section-title">借阅热度 Top 5</div>
+    <div class="card"><div class="card-body p-0">
+      <table class="table table-sm mb-0">
+        <thead class="table-light"><tr><th style="width:44px">#</th><th>书名</th><th class="text-end">被借</th></tr></thead>
+        <tbody>
+        {% for t in top %}
+          <tr class="hover-row">
+            <td class="fw-bold text-secondary">{{ loop.index }}</td>
+            <td>
+              <a href="{{ url_for('book_detail', isbn=t.isbn) }}" class="text-decoration-none">{{ t.title }}</a>
+              <div class="stat-label">{{ t.author }} · {{ t.category }}</div>
+            </td>
+            <td class="text-end"><span class="badge bg-secondary">{{ t.times }} 次</span></td>
+          </tr>
+        {% else %}
+          <tr><td colspan="3"><div class="empty-state"><i class="bi bi-inbox"></i><p class="mt-2 mb-0">暂无数据</p></div></td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div></div>
+  </div>
+
+  {# ── 学院排行 ── #}
+  <div class="col-lg-6">
+    <div class="section-title">学院借阅排行榜</div>
+    <div class="card"><div class="card-body p-0">
+      <table class="table table-sm mb-0">
+        <thead class="table-light"><tr><th style="width:44px">#</th><th>学院</th><th class="text-end">借阅量</th><th class="text-end">人数</th></tr></thead>
+        <tbody>
+        {% for c in colleges %}
+          <tr class="hover-row">
+            <td class="fw-bold text-secondary">{{ loop.index }}</td>
+            <td>{{ c._id }}</td>
+            <td class="text-end">{{ c.total }}</td>
+            <td class="text-end text-muted">{{ c.readers }}</td>
+          </tr>
+        {% else %}
+          <tr><td colspan="4"><div class="empty-state"><i class="bi bi-building"></i><p class="mt-2 mb-0">暂无数据</p></div></td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div></div>
+  </div>
+</div>
+
+{% endblock %}

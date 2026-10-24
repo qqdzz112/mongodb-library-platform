@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+{% block title %}统计分析 · 图书情报检索与统计平台{% endblock %}
+
+{% block content %}
+<h4 class="mb-4 fw-bold">统计分析</h4>
+
+{# ── 分类统计 ── #}
+<div class="section-title">一、分类统计（对应 A1 / A2 / A3）</div>
+<div class="card"><div class="card-body p-0">
+  <table class="table table-hover mb-0">
+    <thead class="table-light">
+      <tr>
+        <th>类别</th><th class="text-end">图书数量</th><th class="text-end">平均评分</th>
+        <th class="text-end">平均定价</th><th class="text-end">库存总量</th>
+        <th class="text-end">最高库存</th><th class="text-end">最低库存</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% set max_count = cats | map(attribute='count') | max if cats else 1 %}
+    {% for c in cats %}
+      <tr>
+        <td>
+          <span class="badge badge-cat">{{ c._id }}</span>
+          <a href="{{ url_for('books', category=c._id) }}" class="ms-2 small text-decoration-none">查看</a>
+        </td>
+        <td class="text-end">
+          <div class="d-flex align-items-center justify-content-end gap-2">
+            <div class="progress progress-thin" style="width: 80px;">
+              <div class="progress-bar" style="width: {{ (c.count / max_count * 100) | round(0) }}%; background: var(--brand-2);"></div>
+            </div>
+            <span class="fw-bold">{{ c.count }}</span>
+          </div>
+        </td>
+        <td class="text-end">
+          <span class="stars small">{{ c.avgRating | stars }}</span>
+          <span class="ms-1">{{ "%.2f"|format(c.avgRating or 0) }}</span>
+        </td>
+        <td class="text-end">{{ c.avgPrice | money }}</td>
+        <td class="text-end fw-bold">{{ c.totalStock }}</td>
+        <td class="text-end text-muted">{{ c.maxStock }}</td>
+        <td class="text-end text-muted">{{ c.minStock }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div></div>
+
+<div class="row g-4 mt-1">
+  {# ── 借阅趋势 ── #}
+  <div class="col-lg-6">
+    <div class="section-title">二、年度借阅趋势（对应 A6）</div>
+    <div class="card"><div class="card-body">
+      {% if trend %}
+      {% set max_t = trend | map(attribute='count') | max %}
+      {% set total_t = trend | map(attribute='count') | sum %}
+      <div class="d-flex align-items-end justify-content-around" style="height: 180px;">
+        {% for t in trend %}
+        <div class="text-center flex-fill mx-2">
+          <div class="fw-bold mb-1">{{ t.count }}</div>
+          <div class="stat-label mb-1">{{ (t.count / total_t * 100) | round(1) }}%</div>
+          <div style="background: linear-gradient(180deg, var(--brand-2), var(--brand));
+                      height: {{ (t.count / max_t * 120) | round(0) }}px;
+                      border-radius: 4px 4px 0 0;"></div>
+          <div class="stat-label mt-2">{{ t._id }} 年</div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="text-center stat-label mt-3">合计 {{ total_t }} 条借阅流水</div>
+      {% else %}
+      <div class="empty-state"><i class="bi bi-graph-up"></i><p class="mt-2 mb-0">暂无数据</p></div>
+      {% endif %}
+    </div></div>
+  </div>
+
+  {# ── 借阅状态 ── #}
+  <div class="col-lg-6">
+    <div class="section-title">三、借阅状态分布</div>
+    <div class="card"><div class="card-body">
+      {% set total_s = statuses | map(attribute='count') | sum if statuses else 1 %}
+      {% for s in statuses %}
+      <div class="mb-3">
+        <div class="d-flex justify-content-between mb-1">
+          <span>
+            {% if s._id == '已归还' %}<i class="bi bi-check-circle text-success me-1"></i>
+            {% elif s._id == '借出' %}<i class="bi bi-arrow-right-circle text-primary me-1"></i>
+            {% else %}<i class="bi bi-exclamation-circle text-danger me-1"></i>{% endif %}
+            {{ s._id }}
+          </span>
+          <span class="meta-val">{{ s.count }} 条 · {{ (s.count / total_s * 100) | round(1) }}%</span>
+        </div>
+        <div class="progress progress-thin">
+          <div class="progress-bar {{ 'bg-success' if s._id=='已归还' else ('bg-primary' if s._id=='借出' else 'bg-danger') }}"
+               style="width: {{ (s.count / total_s * 100) | round(1) }}%"></div>
+        </div>
+      </div>
+      {% endfor %}
+      {% if not statuses %}
+      <div class="empty-state"><i class="bi bi-pie-chart"></i><p class="mt-2 mb-0">暂无数据</p></div>
+      {% endif %}
+    </div></div>
+  </div>
+
+  {# ── 畅销榜 ── #}
+  <div class="col-lg-6">
+    <div class="section-title">四、借阅热度 Top 10（对应 A7）</div>
+    <div class="card"><div class="card-body p-0">
+      <table class="table table-sm mb-0">
+        <thead class="table-light"><tr><th style="width:44px">名次</th><th>书名</th><th class="text-end">被借</th></tr></thead>
+        <tbody>
+        {% for t in top %}
+        <tr class="hover-row">
+          <td>
+            {% if loop.index <= 3 %}
+              <span class="badge" style="background: {{ ['#e9c46a','#adb5bd','#cd7f32'][loop.index-1] }}; color:#fff;">{{ loop.index }}</span>
+            {% else %}
+              <span class="text-muted">{{ loop.index }}</span>
+            {% endif %}
+          </td>
+          <td>
+            <a href="{{ url_for('book_detail', isbn=t.isbn) }}" class="text-decoration-none">{{ t.title }}</a>
+            <div class="stat-label">{{ t.author }} · {{ t.category }}</div>
+          </td>
+          <td class="text-end"><span class="fw-bold">{{ t.times }}</span> 次</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="3"><div class="empty-state"><i class="bi bi-inbox"></i><p class="mt-2 mb-0">暂无数据</p></div></td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div></div>
+  </div>
+
+  {# ── 学院排行 ── #}
+  <div class="col-lg-6">
+    <div class="section-title">五、学院借阅排行榜（对应 A8）</div>
+    <div class="card"><div class="card-body p-0">
+      <table class="table table-sm mb-0">
+        <thead class="table-light"><tr><th>学院</th><th class="text-end">借阅量</th><th class="text-end">参与人数</th><th class="text-end">人均</th></tr></thead>
+        <tbody>
+        {% for c in colleges %}
+        <tr class="hover-row">
+          <td>{{ c._id }}</td>
+          <td class="text-end">
+            {% set max_c = colleges | map(attribute='total') | max %}
+            <div class="d-flex align-items-center justify-content-end gap-2">
+              <div class="progress progress-thin" style="width: 70px;">
+                <div class="progress-bar" style="width: {{ (c.total / max_c * 100) | round(0) }}%; background: var(--brand);"></div>
+              </div>
+              <span class="fw-bold">{{ c.total }}</span>
+            </div>
+          </td>
+          <td class="text-end text-muted">{{ c.readers }}</td>
+          <td class="text-end text-muted">{{ (c.total / c.readers) | round(1) }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="4"><div class="empty-state"><i class="bi bi-building"></i><p class="mt-2 mb-0">暂无数据</p></div></td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div></div>
+  </div>
+
+  {# ── 等级分布 ── #}
+  <div class="col-12">
+    <div class="section-title">六、读者借阅等级分布</div>
+    <div class="card"><div class="card-body">
+      <div class="row g-3">
+        {% set total_l = levels | map(attribute='count') | sum if levels else 1 %}
+        {% for l in levels %}
+        <div class="col-4">
+          <div class="d-flex justify-content-between">
+            <span class="badge badge-cat">{{ l._id }}</span>
+            <span class="meta-val">{{ l.count }} 人</span>
+          </div>
+          <div class="progress progress-thin mt-2">
+            <div class="progress-bar" style="width: {{ (l.count / total_l * 100) | round(1) }}%; background: var(--accent);"></div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div></div>
+  </div>
+</div>
+
+{% endblock %}

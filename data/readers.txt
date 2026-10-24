@@ -1,0 +1,228 @@
+[
+  {
+    "card_no": "R20240001",
+    "name": "张明",
+    "college": "计算机学院",
+    "email": "zhangming@example.edu",
+    "phone": "13800138000",
+    "level": "高级",
+    "register_date": {
+      "$date": "2024-09-01T00:00:00.000+08:00"
+    },
+    "fav_categories": [
+      "计算机",
+      "文学"
+    ]
+  },
+  {
+    "card_no": "R20240002",
+    "name": "李小雨",
+    "college": "经济管理学院",
+    "email": "lixiaoyu@example.edu",
+    "phone": "13900139000",
+    "level": "普通",
+    "register_date": {
+      "$date": "2024-09-04T00:00:00.000+08:00"
+    },
+    "fav_categories": [
+      "经济管理"
+    ]
+  },
+  {
+    "card_no": "R20240003",
+    "name": "王强",
+    "college": "计算机学院",
+    "email": "wangqiang@example.edu",
+    "phone": "13700137000",
+    "level": "高级",
+    "register_date": {
+      "$date": "2024-09-07T00:00:00.000+08:00"
+    },
+    "fav_categories": [
+      "计算机",
+      "数学"
+    ]
+  },
+  {
+    "card_no": "R20240004",
+    "name": "刘洋",
+    "college": "外国语学院",
+    "email": null,
+    "phone": "13600136000",
+    "level": "普通",
+    "register_date": {
+      "$date": "2024-09-10T00:00:00.000+08:00"
+    },
+    "fav_categories": [
+      "外语",
+      "文学"
+    ]
+  },
+  {
+    "card_no": "R20240005",
+    "name": "陈静",
+    "college": "数学与统计学院",
+    "email": "chenjing@example.edu",
+    "phone": "13500135000",
+    "level": "教师",
+    "register_date": {
+      "$date": "2024-09-13T00:00:00.000+08:00"
+    },
+    "fav_categories": [
+      "数学",
+      "计算机"
+    ]
+  },
+  {
+    "card_no": "R20240006",
+    "name": "赵磊",
+    "college": "文学院",
+    "email": "zhaolei@example.edu",
+    "phone": "13400134000",
+    "level": "普通",
+    "register_date": {
+      "$date": "2024-09-16T00:00:00.000+08:00"
+    },
+    "fav_categories": [
+      "文学"
+    ]
+  },
+  {
+    "card_no": "R20240007",
+    "name": "孙丽",
+    "college": "计算机学院",
+    "email": "sunli@example.edu",
+    "phone": "13300133000",
+    "level": "高级",
+    "register_date": {
+      "$date": "2024-09-19T00:00:00.000+08:00"
+    },
+    "fav_categories": [
+      "计算机"
+    ]
+  },
+  {
+    "card_no": "R20240008",
+    "name": "周涛",
+    "college": "经济管理学院",
+    "email": null,
+    "phone": "13200132000",
+    "level": "普通",
+    "register_date": {
+      "$date": "2024-09-22T00:00:00.000+08:00"
+    },
+    "fav_categories": [
+      "经济管理",
+      "外语"
+    ]
+  },
+  {
+    "card_no": "R20240009",
+    "name": "吴敏",
+    "college": "外国语学院",
+    "email": "wumin@example.edu",
+    "phone": "13100131000",
+    "level": "普通",
+    "register_date": {
+      "$date": "2024-09-25T00:00:00.000+08:00"
+    },
+    "fav_categories": [
+      "外语"
+    ]
+  },
+  {
+    "card_no": "R20240010",
+    "name": "郑凯",
+    "college": "数学与统计学院",
+    "email": "zhengkai@example.edu",
+    "phone": "13000130000",
+    "level": "教师",
+    "register_date": {
+      "$date": "2024-09-01T00:00:00.000+08:00"
+    },
+    "fav_categories": [
+      "数学"
+    ]
+  },
+  {
+    "card_no": "R20240011",
+    "name": "冯雪",
+    "college": "文学院",
+    "email": null,
+    "phone": "15900159000",
+    "level": "普通",
+    "register_date": {
+      "$date": "2024-09-04T00:00:00.000+08:00"
+    },
+    "fav_categories": [
+      "文学",
+      "外语"
+    ]
+  },
+  {
+    "card_no": "R20240012",
+    "name": "蒋涛",
+    "college": "计算机学院",
+    "email": "jiangtao@example.edu",
+    "phone": "15800158000",
+    "level": "普通",
+    "register_date": {
+      "$date": "2024-09-07T00:00:00.000+08:00"
+    },
+    "fav_categories": [
+      "计算机",
+      "经济管理"
+    ]
+  },
+  {
+    "card_no": "R20240013",
+    "name": "韩梅",
+    "college": "管理学院",
+    "email": "hanmei@example.edu",
+    "phone": "15700157000",
+    "level": "普通",
+    "register_date": {
+      "$date": "2024-09-10T00:00:00.000+08:00"
+    },
+    "fav_categories": [
+      "经济管理"
+    ]
+  },
+  {
+    "card_no": "R20240014",
+    "name": "杨帆",
+    "college": "数学与统计学院",
+    "email": "yangfan@example.edu",
+    "phone": "15600156000",
+    "level": "高级",
+    "register_date": {
+      "$date": "2024-09-13T00:00:00.000+08:00"
+    },
+    "fav_categories": [
+      "数学",
+      "计算机"
+    ]
+  },
+  {
+    "card_no": "R20240015",
+    "name": "许静",
+    "college": "文学院",
+    "email": "xujing@example.edu",
+    "phone": "15500155000",
+    "level": "普通",
+    "register_date": {
+      "$date": "2024-09-16T00:00:00.000+08:00"
+    }
+  },
+  {
+    "card_no": "R20240016",
+    "name": "何伟",
+    "college": "管理学院",
+    "email": "hewei@example.edu",
+    "phone": "15300153000",
+    "level": "普通",
+    "register_date": {
+      "$date": "2024-09-19T00:00:00.000+08:00"
+    }
+  }
+]

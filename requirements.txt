@@ -1,0 +1,8 @@
+# 图书情报检索与统计平台 · 依赖
+# 安装：pip install -r requirements.txt
+
+# MongoDB 官方 Python 驱动（含 bson，用于解析扩展 JSON 的 {"$date": ...}）
+pymongo>=4.6,<5.0
+
+# Web 前端框架
+Flask>=3.0,<4.0

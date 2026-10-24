@@ -1,0 +1,94 @@
+﻿{% extends "base.html" %}
+{% block title %}读者 · 图书情报检索与统计平台{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h4 class="mb-0 fw-bold">读者</h4>
+  <span class="text-muted small">共 {{ result.total }} 人</span>
+</div>
+
+<div class="card mb-4"><div class="card-body">
+  <form method="get" class="row g-2 align-items-end">
+    <div class="col-12 col-md-4">
+      <label class="form-label stat-label mb-1">关键字（姓名 / 借阅证号）</label>
+      <input type="text" name="q" value="{{ q }}" class="form-control form-control-sm" placeholder="如 张、R20240001">
+    </div>
+    <div class="col-8 col-md-3">
+      <label class="form-label stat-label mb-1">学院</label>
+      <select name="college" class="form-select form-select-sm">
+        <option value="">全部</option>
+        {% for c in colleges %}
+        <option value="{{ c._id }}" {{ 'selected' if college == c._id }}>{{ c._id }}（{{ c.count }}）</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-4 col-md-2 d-flex gap-1">
+      <button class="btn btn-sm btn-primary flex-fill" style="background: var(--brand-2); border-color: var(--brand-2);">
+        <i class="bi bi-search"></i>
+      </button>
+      <a href="{{ url_for('readers') }}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-x-lg"></i></a>
+    </div>
+  </form>
+</div></div>
+
+{% if result.rows %}
+<div class="card"><div class="card-body p-0">
+  <table class="table table-hover mb-0">
+    <thead class="table-light">
+      <tr>
+        <th style="width:110px">借阅证号</th><th>姓名</th><th>学院</th>
+        <th>邮箱</th><th>电话</th><th>等级</th><th class="text-end">借阅次数</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for r in result.rows %}
+      <tr class="hover-row">
+        <td><code class="small">{{ r.card_no }}</code></td>
+        <td class="fw-bold">{{ r.name }}</td>
+        <td><span class="badge badge-cat">{{ r.college }}</span></td>
+        <td class="small text-muted">{{ r.email or '（未填写）' }}</td>
+        <td class="small text-muted">{{ r.phone }}</td>
+        <td>
+          {% if r.level == '教师' %}<span class="badge bg-warning-subtle text-warning-emphasis">{{ r.level }}</span>
+          {% elif r.level == '高级' %}<span class="badge bg-info-subtle text-info-emphasis">{{ r.level }}</span>
+          {% else %}<span class="badge bg-secondary-subtle text-secondary-emphasis">{{ r.level }}</span>{% endif %}
+        </td>
+        <td class="text-end">
+          <a href="{{ url_for('logs', q=r.card_no) }}" class="text-decoration-none fw-bold">{{ r.borrowCount }}</a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div></div>
+
+{% if result.total_pages > 1 %}
+<nav class="mt-4">
+  <ul class="pagination pagination-sm justify-content-center">
+    {% set args = {'q': q, 'college': college} %}
+    <li class="page-item {{ 'disabled' if not result.has_prev }}">
+      <a class="page-link" href="{{ url_for('readers', page=result.page-1, **args) }}">上一页</a>
+    </li>
+    {% for p in range(1, result.total_pages + 1) %}
+    <li class="page-item {{ 'active' if p == result.page }}">
+      <a class="page-link" href="{{ url_for('readers', page=p, **args) }}">{{ p }}</a>
+    </li>
+    {% endfor %}
+    <li class="page-item {{ 'disabled' if not result.has_next }}">
+      <a class="page-link" href="{{ url_for('readers', page=result.page+1, **args) }}">下一页</a>
+    </li>
+  </ul>
+</nav>
+{% endif %}
+
+{% else %}
+<div class="card"><div class="card-body">
+  <div class="empty-state">
+    <i class="bi bi-person-x"></i>
+    <h6 class="mt-3">没有找到符合条件的读者</h6>
+    <a href="{{ url_for('readers') }}" class="btn btn-sm btn-outline-secondary mt-2">查看全部读者</a>
+  </div>
+</div></div>
+{% endif %}
+
+{% endblock %}
